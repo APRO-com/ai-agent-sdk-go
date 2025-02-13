@@ -1,8 +1,8 @@
-package sdk
+package verify
 
 import (
-	"ai-agent-go-sdk/config"
-	"ai-agent-go-sdk/contract/agent_proxy"
+	"ai-agent-go-sdk/attps/verify/config"
+	"ai-agent-go-sdk/attps/verify/contract/agent_proxy"
 	"ai-agent-go-sdk/util"
 	"encoding/hex"
 	"fmt"

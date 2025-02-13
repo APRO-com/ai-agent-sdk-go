@@ -7,6 +7,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"golang.org/x/crypto/sha3"
+	"regexp"
 )
 
 func HexString2Byte32(hexString string) ([32]byte, error) {
@@ -116,4 +117,19 @@ func EncodeSignatureDatas(signatures []SignatureData) ([]byte, error) {
 	}
 
 	return encoded, nil
+}
+
+// LongToBytes Convert long (int64) to byte array
+func LongToBytes(n int64) []byte {
+	b := make([]byte, 8)
+	for i := uint(0); i < 8; i++ {
+		b[7-i] = byte(n >> (i * 8))
+	}
+	return b
+}
+
+// IsHexString Use regular expressions to determine if a string is a hexadecimal string
+func IsHexString(s string) bool {
+	match, _ := regexp.MatchString("^[0-9a-fA-F]+$", s)
+	return match
 }

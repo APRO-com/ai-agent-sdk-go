@@ -20,7 +20,7 @@ go get github.com/APRO-com/ai-agent-sdk-go
 ```
 
 ## Usage
-### Basic Example
+### Basic Verify Example
 Here's an example of how to use the SDK to interact with the AI Agent system:
 ```
 func main() {
@@ -40,7 +40,7 @@ func main() {
 }
 ```
 
-For more examples, see [client_test.go](sdk%2Fclient_test.go)
+For more examples, see [client_test.go](attps/verify/client_test.go)
 
 ## Contributing
 
