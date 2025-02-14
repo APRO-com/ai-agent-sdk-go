@@ -8,7 +8,7 @@ import (
 type VRFRequest struct {
 	Version          *int64  `json:"version"`
 	TargetAgentID    *string `json:"target_agent_id"`
-	ClientFeed       *string `json:"client_feed"`
+	ClientSeed       *string `json:"client_seed"`
 	KeyHash          *string `json:"key_hash"`
 	RequestTimestamp *int64  `json:"request_timestamp"`
 	RequestID        *string `json:"request_id"`

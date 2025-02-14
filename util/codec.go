@@ -1,6 +1,7 @@
 package util
 
 import (
+	"crypto/rand"
 	"encoding/hex"
 	"fmt"
 	"github.com/ethereum/go-ethereum/accounts/abi"
@@ -132,4 +133,20 @@ func LongToBytes(n int64) []byte {
 func IsHexString(s string) bool {
 	match, _ := regexp.MatchString("^[0-9a-fA-F]+$", s)
 	return match
+}
+
+func SecureRandomString(length int) string {
+	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	result := make([]byte, length/2)
+	randomBytes := make([]byte, length/2)
+
+	_, err := rand.Read(randomBytes)
+	if err != nil {
+		panic(err)
+	}
+
+	for i := range result {
+		result[i] = charset[randomBytes[i]%byte(len(charset))]
+	}
+	return hex.EncodeToString(result)
 }

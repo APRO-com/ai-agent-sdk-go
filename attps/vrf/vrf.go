@@ -58,10 +58,10 @@ func (v *VRF) Request(ctx context.Context, req VRFRequest) (random string, err e
 	return *resp.Result, nil
 }
 
-func (v *VRF) CalRequestID(version int64, targetAgentId string, customerFeed string, requestTimestamp int64, callbackUri string) (string, error) {
+func (v *VRF) CalRequestID(version int64, targetAgentId string, customerSeed string, requestTimestamp int64, callbackUri string) (string, error) {
 	// Concatenate byte arrays
 	t := append(util.LongToBytes(version), []byte(targetAgentId)...)
-	t = append(t, *core.HexBytes(customerFeed)...)
+	t = append(t, *core.HexBytes(customerSeed)...)
 	t = append(t, util.LongToBytes(requestTimestamp)...)
 	t = append(t, []byte(callbackUri)...)
 
@@ -79,8 +79,8 @@ func (v *VRF) checkRequestParams(req VRFRequest) error {
 	if !util.IsUUIDv4(*req.TargetAgentID) {
 		return errors.New(fmt.Sprintf("invalid target agent id: %s", *req.TargetAgentID))
 	}
-	if !util.IsHexString(*req.ClientFeed) {
-		return errors.New(fmt.Sprintf("invalid client feed: %s", *req.ClientFeed))
+	if !util.IsHexString(*req.ClientSeed) {
+		return errors.New(fmt.Sprintf("invalid client seed: %s", *req.ClientSeed))
 	}
 	if !util.IsHexString(*req.KeyHash) {
 		return errors.New(fmt.Sprintf("invalid key hash: %s", *req.KeyHash))
@@ -89,7 +89,7 @@ func (v *VRF) checkRequestParams(req VRFRequest) error {
 	//	return errors.New(fmt.Sprintf("invalid request timestamp: %d", *req.RequestTimestamp))
 	//}
 
-	requestID, err := v.CalRequestID(*req.Version, *req.TargetAgentID, *req.ClientFeed, *req.RequestTimestamp, *req.CallbackURI)
+	requestID, err := v.CalRequestID(*req.Version, *req.TargetAgentID, *req.ClientSeed, *req.RequestTimestamp, *req.CallbackURI)
 	if err != nil {
 		return err
 	}
