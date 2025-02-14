@@ -17,7 +17,7 @@ import (
 type VRF service.Service
 
 // Request get a vrf random number and verify the returned proof data
-func (v *VRF) Request(ctx context.Context, req VRFRequest) (resp *VRFResponse, err error) {
+func (v *VRF) Request(ctx context.Context, req VRFRequest) (random string, err error) {
 	var (
 		localVarHTTPMethod   = nethttp.MethodPost
 		localVarPostBody     interface{}
@@ -31,7 +31,7 @@ func (v *VRF) Request(ctx context.Context, req VRFRequest) (resp *VRFResponse, e
 	localVarPostBody = &req
 
 	if err = v.checkRequestParams(req); err != nil {
-		return nil, err
+		return "", err
 	}
 
 	// Determine the Content-Type Header
@@ -42,16 +42,20 @@ func (v *VRF) Request(ctx context.Context, req VRFRequest) (resp *VRFResponse, e
 	// Perform Http Request
 	result, err := v.Client.Request(ctx, localVarHTTPMethod, localVarPath, localVarHeaderParams, localVarQueryParams, localVarPostBody, localVarHTTPContentType)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	resp = new(VRFResponse)
+	resp := new(VRFResponse)
 	err = core.UnMarshalResponse(result.Response, resp)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	return resp, nil
+	if resp.BaseResponse.Code != 0 {
+		return "", errors.New(*resp.Message)
+	}
+
+	return *resp.Result, nil
 }
 
 func (v *VRF) CalRequestID(version int64, targetAgentId string, customerFeed string, requestTimestamp int64, callbackUri string) (string, error) {

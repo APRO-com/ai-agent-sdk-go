@@ -35,7 +35,7 @@ func TestVRF_Request(t *testing.T) {
 		t.Errorf("call RequestID err:%s", err)
 		return
 	}
-	resp, err := svc.Request(ctx,
+	random, err := svc.Request(ctx,
 		VRFRequest{
 			Version:          core.Int64(version),
 			TargetAgentID:    core.String(targetAgentID),
@@ -51,11 +51,7 @@ func TestVRF_Request(t *testing.T) {
 		t.Errorf("call Request err:%s", err)
 		return
 	} else {
-		if resp.BaseResponse.Code != 0 {
-			t.Error(resp.Message)
-			return
-		}
-		t.Log(*resp.Result)
+		t.Log(random)
 	}
 }
 
